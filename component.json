@@ -1,0 +1,23 @@
+{
+  "name": "unist-util-modify-children",
+  "version": "0.0.0",
+  "description": "Unist utility to modify direct children of a parent",
+  "license": "MIT",
+  "keywords": [
+    "unist",
+    "retext",
+    "nlcst",
+    "mdast",
+    "util",
+    "utility",
+    "modify",
+    "children"
+  ],
+  "dependencies": {
+    "wooorm/array-iterate": "^1.0.0"
+  },
+  "repository": "wooorm/unist-util-modify-children",
+  "scripts": [
+    "index.js"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "name": "unist-util-modify-children",
+  "main": "unist-util-modify-children.js",
+  "description": "Unist utility to modify direct children of a parent",
+  "license": "MIT",
+  "keywords": [
+    "unist",
+    "retext",
+    "nlcst",
+    "mdast",
+    "util",
+    "utility",
+    "modify",
+    "children"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wooorm/unist-util-modify-children.git"
+  },
+  "authors": [
+    "Titus Wormer <tituswormer@gmail.com>"
+  ],
+  "ignore": [
+    ".*",
+    "*.log",
+    "*.md",
+    "build/",
+    "components/",
+    "coverage/",
+    "node_modules/",
+    "build.js",
+    "example.js",
+    "index.js",
+    "test.js",
+    "component.json",
+    "package.json"
+  ]
+}
