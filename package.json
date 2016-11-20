@@ -13,43 +13,50 @@
     "modify",
     "children"
   ],
-  "dependencies": {
-    "array-iterate": "^1.0.0"
-  },
-  "repository": "wooorm/unist-util-modify-children",
-  "author": "Titus Wormer <tituswormer@gmail.com>",
+  "repository": "https://github.com/wooorm/unist-util-modify-children",
+  "bugs": "https://github.com/wooorm/unist-util-modify-children/issues",
+  "author": "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)",
+  "contributors": [
+    "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)"
+  ],
   "files": [
     "index.js"
   ],
+  "dependencies": {
+    "array-iterate": "^1.0.0"
+  },
   "devDependencies": {
-    "browserify": "^11.0.0",
+    "browserify": "^13.1.1",
     "esmangle": "^1.0.0",
-    "istanbul": "^0.3.0",
-    "mdast": "^1.0.0",
-    "mdast-comment-config": "^1.0.0",
-    "mdast-github": "^1.0.0",
-    "mdast-lint": "^1.0.0",
-    "mdast-slug": "^1.0.0",
-    "mdast-validate-links": "^1.0.0",
-    "mocha": "^2.0.0",
+    "nyc": "^9.0.1",
+    "remark-cli": "^2.0.0",
+    "remark-preset-wooorm": "^1.0.0",
+    "tape": "^4.6.2",
     "xo": "^0.17.1"
   },
   "scripts": {
-    "test-api": "mocha --check-leaks test.js",
-    "test-coverage": "istanbul cover _mocha -- test.js",
-    "test-travis": "npm run test-coverage",
-    "test": "npm run test-api",
+    "build-md": "remark . --quiet --frail --output",
+    "build-bundle": "browserify index.js --bare -s unistUtilModifyChildren > unist-util-modify-children.js",
+    "build-mangle": "esmangle < unist-util-modify-children.js > unist-util-modify-children.min.js",
+    "build": "npm run build-md && npm run build-bundle && npm run build-mangle",
     "lint": "xo",
-    "make": "npm run lint && npm run test-coverage",
-    "bundle": "browserify index.js --no-builtins -s unistUtilModifyChildren > unist-util-modify-children.js",
-    "postbundle": "esmangle unist-util-modify-children.js > unist-util-modify-children.min.js",
-    "build-md": "mdast . --quiet",
-    "build": "npm run bundle && npm run build-md"
+    "test-api": "node test",
+    "test-coverage": "nyc --reporter lcov tape test.js",
+    "test": "npm run build && npm run lint && npm run test-coverage"
   },
   "xo": {
     "space": true,
     "ignore": [
       "unist-util-modify-children.js"
     ]
+  },
+  "nyc": {
+    "check-coverage": true,
+    "lines": 100,
+    "functions": 100,
+    "branches": 100
+  },
+  "remarkConfig": {
+    "presets": "wooorm"
   }
 }

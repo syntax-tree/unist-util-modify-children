@@ -1,34 +1,28 @@
 'use strict';
 
-/* eslint-env mocha */
-
-var assert = require('assert');
+var test = require('tape');
 var modifyChildren = require('./');
-
-var throws = assert.throws;
-var equal = assert.strictEqual;
-var deepEqual = assert.deepEqual;
 
 var noop = Function.prototype;
 
-describe('modifyChildren()', function () {
-  it('should throw when no `parent` is given', function () {
-    throws(
-      function () {
-        modifyChildren(noop)();
-      },
-      /Missing children in `parent`/
-    );
+test('modifyChildren()', function (t) {
+  t.throws(
+    function () {
+      modifyChildren(noop)();
+    },
+    /Missing children in `parent`/,
+    'should throw without node'
+  );
 
-    throws(
-      function () {
-        modifyChildren(noop)({});
-      },
-      /Missing children in `parent`/
-    );
-  });
+  t.throws(
+    function () {
+      modifyChildren(noop)({});
+    },
+    /Missing children in `parent`/,
+    'should throw without parent'
+  );
 
-  it('should invoke `fn` for each child in `parent`', function () {
+  t.test('should invoke `fn` for each child in `parent`', function (st) {
     var values = [0, 1, 2, 3];
     var context = {};
     var n = -1;
@@ -37,13 +31,15 @@ describe('modifyChildren()', function () {
 
     modifyChildren(function (child, index, parent) {
       n++;
-      equal(child, values[n]);
-      equal(index, n);
-      equal(parent, context);
+      st.strictEqual(child, values[n]);
+      st.strictEqual(index, n);
+      st.strictEqual(parent, context);
     })(context);
+
+    st.end();
   });
 
-  it('should work when new children are added', function () {
+  t.test('should work when new children are added', function (st) {
     var values = [0, 1, 2, 3, 4, 5, 6];
     var n = -1;
 
@@ -54,12 +50,14 @@ describe('modifyChildren()', function () {
         parent.children.push(parent.children.length);
       }
 
-      equal(child, values[n]);
-      equal(index, values[n]);
+      st.strictEqual(child, values[n]);
+      st.strictEqual(index, values[n]);
     })({children: [0, 1, 2, 3]});
+
+    st.end();
   });
 
-  it('should skip forwards', function () {
+  t.test('should skip forwards', function (st) {
     var values = [0, 1, 2, 3];
     var n = -1;
     var context = {};
@@ -67,7 +65,7 @@ describe('modifyChildren()', function () {
     context.children = [0, 1, 3];
 
     modifyChildren(function (child, index, parent) {
-      equal(child, values[++n]);
+      st.strictEqual(child, values[++n]);
 
       if (child === 1) {
         parent.children.splice(index + 1, 0, 2);
@@ -75,10 +73,12 @@ describe('modifyChildren()', function () {
       }
     })(context);
 
-    deepEqual(context.children, values);
+    st.deepEqual(context.children, values);
+
+    st.end();
   });
 
-  it('should skip backwards', function () {
+  t.test('should skip backwards', function (st) {
     var invocations = [0, 1, -1, 0, 1, 2, 3];
     var n = -1;
     var context = {};
@@ -87,7 +87,7 @@ describe('modifyChildren()', function () {
     context.children = [0, 1, 2, 3];
 
     modifyChildren(function (child, index, parent) {
-      equal(child, invocations[++n]);
+      st.strictEqual(child, invocations[++n]);
 
       if (!inserted && child === 1) {
         inserted = true;
@@ -96,6 +96,10 @@ describe('modifyChildren()', function () {
       }
     })(context);
 
-    deepEqual(context.children, [-1, 0, 1, 2, 3]);
+    st.deepEqual(context.children, [-1, 0, 1, 2, 3]);
+
+    st.end();
   });
+
+  t.end();
 });
