@@ -1,7 +1,0 @@
-build/
-components/
-coverage/
-build.js
-example.js
-unist-util-modify-children.js
-unist-util-modify-children.min.js
