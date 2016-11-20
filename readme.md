@@ -1,109 +1,89 @@
-# unist-util-modify-children [![Build Status](https://img.shields.io/travis/wooorm/unist-util-modify-children.svg)](https://travis-ci.org/wooorm/unist-util-modify-children) [![Coverage Status](https://img.shields.io/codecov/c/github/wooorm/unist-util-modify-children.svg)](https://codecov.io/github/wooorm/unist-util-modify-children)
+# unist-util-modify-children [![Build Status][travis-badge]][travis] [![Coverage Status][codecov-badge]][codecov]
 
-[Unist](https://github.com/wooorm/unist) ([mdast](https://github.com/wooorm/mdast/blob/master/doc/mdastnode.7.md),
-[retext](https://github.com/wooorm/retext)) utility to modify direct children of
-a parent. As in, wrap `fn` so it accepts a parent and invoke `fn` for each of
-its children. When `fn` returns a number, goes to that child next.
+Modify direct children of a parent.
 
 ## Installation
 
-[npm](https://docs.npmjs.com/cli/install):
+[npm][]:
 
 ```bash
 npm install unist-util-modify-children
 ```
 
-**unist-util-modify-children** is also available for [bower](http://bower.io/#install-packages),
-[component](https://github.com/componentjs/component), and
-[duo](http://duojs.org/#getting-started), and as an AMD, CommonJS, and globals
-module, [uncompressed](unist-util-modify-children.js) and [compressed](unist-util-modify-children.min.js).
-
 ## Usage
 
-```js
+```javascript
+var remark = require('remark');
 var modifyChildren = require('unist-util-modify-children');
 
-var modifier = modifyChildren(function (child, index, parent) {
-    console.log(child, index);
+var doc = remark().use(plugin).process('This _and_ that');
 
-    if (child.value === 'bravo') {
-        parent.children.splice(index + 1, 0, { 'type': 'bar', 'value': 'delta' });
-        return index + 1;
-    }
-});
+console.log(String(doc));
 
-var parent = {
-    'type': 'foo',
-    'children': [
-        { 'type': 'bar', 'value': 'alpha' },
-        { 'type': 'bar', 'value': 'bravo' },
-        { 'type': 'bar', 'value': 'charlie' }
-    ]
-};
+function plugin() {
+  return transformer;
+  function transformer(tree) {
+    modifyChildren(modifier)(tree.children[0]);
+  }
+}
 
-modifier(parent);
-/*
- * { type: 'bar', value: 'alpha' } 0
- * { type: 'bar', value: 'bravo' } 1
- * { type: 'bar', value: 'delta' } 2
- * { type: 'bar', value: 'charlie' } 3
- */
+function modifier(node, index, parent) {
+  if (node.type === 'emphasis') {
+    parent.children.splice(index, 1, {type: 'strong', children: node.children});
+    return index + 1;
+  }
+}
+```
 
-console.log(parent);
-/*
- * { type: 'foo',
- *   children:
- *    [ { type: 'bar', value: 'alpha' },
- *      { type: 'bar', value: 'bravo' },
- *      { type: 'bar', value: 'delta' },
- *      { type: 'bar', value: 'charlie' } ] }
- */
+Yields:
+
+```js
+This **and** that
 ```
 
 ## API
 
-### modifyChildren(fn)
+### `modify = modifyChildren(modifier)`
 
-**Parameters**
+Wrap [`modifier`][modifier] to be invoked for each child in the node given to
+[`modify`][modify].
 
-*   `fn` ([`Function`](#function-fnchild-index-parent))
-    — Function to wrap.
+#### `next? = modifier(child, index, parent)`
 
-**Return**
+Invoked if [`modify`][modify] is called on a parent node for each `child`
+in `parent`.
 
-[`Function`](#function-pluginparent) — Wrapped `fn`.
-
-#### function fn(child, index, parent)
-
-Modifier for children of `parent`.
-
-**Parameters**
-
-*   `child` ([`Node`](https://github.com/wooorm/unist##unist-nodes))
-    — Current iteration;
-
-*   `index` (`number`) — Position of `child` in `parent`;
-
-*   `parent` ([`Node`](https://github.com/wooorm/unist##unist-nodes))
-    — Parent node of `child`.
-
-**Returns**
+###### Returns
 
 `number` (optional) — Next position to iterate.
 
-#### function plugin(parent)
+#### `function modify(parent)`
 
-Function invoking `fn` for each child of `parent`.
-
-**Parameters**
-
-*   `parent` ([`Node`](https://github.com/wooorm/unist##unist-nodes))
-    — Node with children.
-
-**Throws**
-
-*   `Error` — When not given a parent node.
+Invoke the bound [`modifier`][modifier] for each child in `parent`
+([`Node`][node]).
 
 ## License
 
-[MIT](LICENSE) © [Titus Wormer](http://wooorm.com)
+[MIT][license] © [Titus Wormer][author]
+
+<!-- Definitions -->
+
+[travis-badge]: https://img.shields.io/travis/wooorm/unist-util-modify-children.svg
+
+[travis]: https://travis-ci.org/wooorm/unist-util-modify-children
+
+[codecov-badge]: https://img.shields.io/codecov/c/github/wooorm/unist-util-modify-children.svg
+
+[codecov]: https://codecov.io/github/wooorm/unist-util-modify-children
+
+[npm]: https://docs.npmjs.com/cli/install
+
+[license]: LICENSE
+
+[author]: http://wooorm.com
+
+[node]: https://github.com/wooorm/unist#node
+
+[modifier]: #next--modifierchild-index-parent
+
+[modify]: #function-modifyparent
