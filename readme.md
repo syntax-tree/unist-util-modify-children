@@ -68,13 +68,13 @@ Invoke the bound [`modifier`][modifier] for each child in `parent`
 
 <!-- Definitions -->
 
-[travis-badge]: https://img.shields.io/travis/wooorm/unist-util-modify-children.svg
+[travis-badge]: https://img.shields.io/travis/syntax-tree/unist-util-modify-children.svg
 
-[travis]: https://travis-ci.org/wooorm/unist-util-modify-children
+[travis]: https://travis-ci.org/syntax-tree/unist-util-modify-children
 
-[codecov-badge]: https://img.shields.io/codecov/c/github/wooorm/unist-util-modify-children.svg
+[codecov-badge]: https://img.shields.io/codecov/c/github/syntax-tree/unist-util-modify-children.svg
 
-[codecov]: https://codecov.io/github/wooorm/unist-util-modify-children
+[codecov]: https://codecov.io/github/syntax-tree/unist-util-modify-children
 
 [npm]: https://docs.npmjs.com/cli/install
 
@@ -82,7 +82,7 @@ Invoke the bound [`modifier`][modifier] for each child in `parent`
 
 [author]: http://wooorm.com
 
-[node]: https://github.com/wooorm/unist#node
+[node]: https://github.com/syntax-tree/unist#node
 
 [modifier]: #next--modifierchild-index-parent
 

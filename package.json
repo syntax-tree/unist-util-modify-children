@@ -13,8 +13,8 @@
     "modify",
     "children"
   ],
-  "repository": "https://github.com/wooorm/unist-util-modify-children",
-  "bugs": "https://github.com/wooorm/unist-util-modify-children/issues",
+  "repository": "https://github.com/syntax-tree/unist-util-modify-children",
+  "bugs": "https://github.com/syntax-tree/unist-util-modify-children/issues",
   "author": "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)",
   "contributors": [
     "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)"
