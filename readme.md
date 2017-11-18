@@ -62,6 +62,14 @@ in `parent`.
 Invoke the bound [`modifier`][modifier] for each child in `parent`
 ([`Node`][node]).
 
+## Contribute
+
+See [`contribute.md` in `syntax-tree/unist`][contribute] for ways to get
+started.
+
+This organisation has a [Code of Conduct][coc].  By interacting with this
+repository, organisation, or community you agree to abide by its terms.
+
 ## License
 
 [MIT][license] © [Titus Wormer][author]
@@ -87,3 +95,7 @@ Invoke the bound [`modifier`][modifier] for each child in `parent`
 [modifier]: #next--modifierchild-index-parent
 
 [modify]: #function-modifyparent
+
+[contribute]: https://github.com/syntax-tree/unist/blob/master/contributing.md
+
+[coc]: https://github.com/syntax-tree/unist/blob/master/code-of-conduct.md
