@@ -1,7 +1,7 @@
 'use strict';
 
 var test = require('tape');
-var modifyChildren = require('./');
+var modifyChildren = require('.');
 
 var noop = Function.prototype;
 
