@@ -13,24 +13,26 @@ npm install unist-util-modify-children
 ## Usage
 
 ```javascript
-var remark = require('remark');
-var modifyChildren = require('unist-util-modify-children');
+var remark = require('remark')
+var modifyChildren = require('unist-util-modify-children')
 
-var doc = remark().use(plugin).process('This _and_ that');
+var doc = remark()
+  .use(plugin)
+  .process('This _and_ that')
 
-console.log(String(doc));
+console.log(String(doc))
 
 function plugin() {
-  return transformer;
+  return transformer
   function transformer(tree) {
-    modifyChildren(modifier)(tree.children[0]);
+    modifyChildren(modifier)(tree.children[0])
   }
 }
 
 function modifier(node, index, parent) {
   if (node.type === 'emphasis') {
-    parent.children.splice(index, 1, {type: 'strong', children: node.children});
-    return index + 1;
+    parent.children.splice(index, 1, {type: 'strong', children: node.children})
+    return index + 1
   }
 }
 ```
