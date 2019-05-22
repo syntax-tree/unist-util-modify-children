@@ -1,4 +1,12 @@
-# unist-util-modify-children [![Build Status][travis-badge]][travis] [![Coverage Status][codecov-badge]][codecov]
+# unist-util-modify-children
+
+[![Build][build-badge]][build]
+[![Coverage][coverage-badge]][coverage]
+[![Downloads][downloads-badge]][downloads]
+[![Size][size-badge]][size]
+[![Sponsors][sponsors-badge]][collective]
+[![Backers][backers-badge]][collective]
+[![Chat][chat-badge]][chat]
 
 Modify direct children of a parent.
 
@@ -78,13 +86,31 @@ repository, organisation, or community you agree to abide by its terms.
 
 <!-- Definitions -->
 
-[travis-badge]: https://img.shields.io/travis/syntax-tree/unist-util-modify-children.svg
+[build-badge]: https://img.shields.io/travis/syntax-tree/unist-util-modify-children.svg
 
-[travis]: https://travis-ci.org/syntax-tree/unist-util-modify-children
+[build]: https://travis-ci.org/syntax-tree/unist-util-modify-children
 
-[codecov-badge]: https://img.shields.io/codecov/c/github/syntax-tree/unist-util-modify-children.svg
+[coverage-badge]: https://img.shields.io/codecov/c/github/syntax-tree/unist-util-modify-children.svg
 
-[codecov]: https://codecov.io/github/syntax-tree/unist-util-modify-children
+[coverage]: https://codecov.io/github/syntax-tree/unist-util-modify-children
+
+[downloads-badge]: https://img.shields.io/npm/dm/unist-util-modify-children.svg
+
+[downloads]: https://www.npmjs.com/package/unist-util-modify-children
+
+[size-badge]: https://img.shields.io/bundlephobia/minzip/unist-util-modify-children.svg
+
+[size]: https://bundlephobia.com/result?p=unist-util-modify-children
+
+[sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
+
+[backers-badge]: https://opencollective.com/unified/backers/badge.svg
+
+[collective]: https://opencollective.com/unified
+
+[chat-badge]: https://img.shields.io/badge/join%20the%20community-on%20spectrum-7b16ff.svg
+
+[chat]: https://spectrum.chat/unified/syntax-tree
 
 [npm]: https://docs.npmjs.com/cli/install
 
