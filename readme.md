@@ -10,36 +10,35 @@
 
 Modify direct children of a parent.
 
-## Installation
+## Install
 
 [npm][]:
 
-```bash
+```sh
 npm install unist-util-modify-children
 ```
 
 ## Usage
 
-```javascript
-var remark = require('remark')
+```js
+var u = require('unist-builder')
 var modifyChildren = require('unist-util-modify-children')
 
-var doc = remark()
-  .use(plugin)
-  .process('This _and_ that')
+var modify = modifyChildren(modifier)
 
-console.log(String(doc))
+var tree = u('root', [
+  u('leaf', '1'),
+  u('node', [u('leaf', '2')]),
+  u('leaf', '3')
+])
 
-function plugin() {
-  return transformer
-  function transformer(tree) {
-    modifyChildren(modifier)(tree.children[0])
-  }
-}
+modify(tree)
+
+console.dir(tree, {depth: null})
 
 function modifier(node, index, parent) {
-  if (node.type === 'emphasis') {
-    parent.children.splice(index, 1, {type: 'strong', children: node.children})
+  if (node.type === 'node') {
+    parent.children.splice(index, 1, {type: 'subtree', children: node.children})
     return index + 1
   }
 }
@@ -48,7 +47,14 @@ function modifier(node, index, parent) {
 Yields:
 
 ```js
-This **and** that
+{
+  type: 'root',
+  children: [
+    { type: 'leaf', value: '1' },
+    { type: 'subtree', children: [ { type: 'leaf', value: '2' } ] },
+    { type: 'leaf', value: '3' }
+  ]
+}
 ```
 
 ## API
@@ -72,13 +78,30 @@ in `parent`.
 Invoke the bound [`modifier`][modifier] for each child in `parent`
 ([`Node`][node]).
 
+## Related
+
+*   [`unist-util-visit`](https://github.com/syntax-tree/unist-util-visit)
+    — Visit nodes
+*   [`unist-util-visit-parents`](https://github.com/syntax-tree/unist-util-visit-parents)
+    — Visit nodes with ancestral information
+*   [`unist-util-filter`](https://github.com/eush77/unist-util-filter)
+    — Create a new tree with all nodes that pass a test
+*   [`unist-util-map`](https://github.com/syntax-tree/unist-util-map)
+    — Create a new tree with all nodes mapped by a given function
+*   [`unist-util-remove`](https://github.com/eush77/unist-util-remove)
+    — Remove nodes from a tree that pass a test
+*   [`unist-util-select`](https://github.com/eush77/unist-util-select)
+    — Select nodes with CSS-like selectors
+
 ## Contribute
 
-See [`contributing.md` in `syntax-tree/unist`][contributing] for ways to get
+See [`contributing.md` in `syntax-tree/.github`][contributing] for ways to get
 started.
+See [`support.md`][support] for ways to get help.
 
-This organisation has a [Code of Conduct][coc].  By interacting with this
-repository, organisation, or community you agree to abide by its terms.
+This project has a [Code of Conduct][coc].
+By interacting with this repository, organisation, or community you agree to
+abide by its terms.
 
 ## License
 
@@ -118,12 +141,14 @@ repository, organisation, or community you agree to abide by its terms.
 
 [author]: https://wooorm.com
 
+[contributing]: https://github.com/syntax-tree/.github/blob/master/contributing.md
+
+[support]: https://github.com/syntax-tree/.github/blob/master/support.md
+
+[coc]: https://github.com/syntax-tree/.github/blob/master/code-of-conduct.md
+
 [node]: https://github.com/syntax-tree/unist#node
 
 [modifier]: #next--modifierchild-index-parent
 
 [modify]: #function-modifyparent
-
-[contributing]: https://github.com/syntax-tree/unist/blob/master/contributing.md
-
-[coc]: https://github.com/syntax-tree/unist/blob/master/code-of-conduct.md
