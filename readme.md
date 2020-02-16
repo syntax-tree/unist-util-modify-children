@@ -18,7 +18,7 @@ Modify direct children of a parent.
 npm install unist-util-modify-children
 ```
 
-## Usage
+## Use
 
 ```js
 var u = require('unist-builder')
@@ -50,9 +50,9 @@ Yields:
 {
   type: 'root',
   children: [
-    { type: 'leaf', value: '1' },
-    { type: 'subtree', children: [ { type: 'leaf', value: '2' } ] },
-    { type: 'leaf', value: '3' }
+    {type: 'leaf', value: '1'},
+    {type: 'subtree', children: [{type: 'leaf', value: '2'}]},
+    {type: 'leaf', value: '3'}
   ]
 }
 ```
@@ -81,16 +81,29 @@ Invoke the bound [`modifier`][modifier] for each child in `parent`
 ## Related
 
 *   [`unist-util-visit`](https://github.com/syntax-tree/unist-util-visit)
-    — Visit nodes
+    — Recursively walk over nodes
 *   [`unist-util-visit-parents`](https://github.com/syntax-tree/unist-util-visit-parents)
-    — Visit nodes with ancestral information
-*   [`unist-util-filter`](https://github.com/eush77/unist-util-filter)
+    — Like `visit`, but with a stack of parents
+*   [`unist-util-filter`](https://github.com/syntax-tree/unist-util-filter)
     — Create a new tree with all nodes that pass a test
 *   [`unist-util-map`](https://github.com/syntax-tree/unist-util-map)
     — Create a new tree with all nodes mapped by a given function
-*   [`unist-util-remove`](https://github.com/eush77/unist-util-remove)
+*   [`unist-util-flatmap`](https://gitlab.com/staltz/unist-util-flatmap)
+    — Create a new tree by mapping (to an array) with the provided function and
+    then flattening
+*   [`unist-util-find-after`](https://github.com/syntax-tree/unist-util-find-after)
+    — Find a node after another node
+*   [`unist-util-find-before`](https://github.com/syntax-tree/unist-util-find-before)
+    — Find a node before another node
+*   [`unist-util-find-all-after`](https://github.com/syntax-tree/unist-util-find-all-after)
+    — Find all nodes after another node
+*   [`unist-util-find-all-before`](https://github.com/syntax-tree/unist-util-find-all-before)
+    — Find all nodes before another node
+*   [`unist-util-find-all-between`](https://github.com/mrzmmr/unist-util-find-all-between)
+    — Find all nodes between two nodes
+*   [`unist-util-remove`](https://github.com/syntax-tree/unist-util-remove)
     — Remove nodes from a tree that pass a test
-*   [`unist-util-select`](https://github.com/eush77/unist-util-select)
+*   [`unist-util-select`](https://github.com/syntax-tree/unist-util-select)
     — Select nodes with CSS-like selectors
 
 ## Contribute
@@ -99,8 +112,8 @@ See [`contributing.md` in `syntax-tree/.github`][contributing] for ways to get
 started.
 See [`support.md`][support] for ways to get help.
 
-This project has a [Code of Conduct][coc].
-By interacting with this repository, organisation, or community you agree to
+This project has a [code of conduct][coc].
+By interacting with this repository, organization, or community you agree to
 abide by its terms.
 
 ## License
@@ -131,7 +144,7 @@ abide by its terms.
 
 [collective]: https://opencollective.com/unified
 
-[chat-badge]: https://img.shields.io/badge/join%20the%20community-on%20spectrum-7b16ff.svg
+[chat-badge]: https://img.shields.io/badge/chat-spectrum-7b16ff.svg
 
 [chat]: https://spectrum.chat/unified/syntax-tree
 
