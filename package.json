@@ -1,15 +1,15 @@
 {
   "name": "unist-util-modify-children",
   "version": "1.1.5",
-  "description": "Unist utility to modify direct children of a parent",
+  "description": "utility to modify direct children of a parent",
   "license": "MIT",
   "keywords": [
     "unist",
-    "retext",
-    "nlcst",
-    "mdast",
+    "unist-util",
     "util",
     "utility",
+    "tree",
+    "ast",
     "modify",
     "children"
   ],
