@@ -9,7 +9,7 @@ declare namespace unistUtilModifyChildren {
     parent: Parent
   ) => number | void
 
-  type Modify = (tree: Node) => undefined
+  type Modify = (tree: Node) => void
 }
 
 declare function unistUtilModifyChildren(

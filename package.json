@@ -34,13 +34,14 @@
   },
   "devDependencies": {
     "browserify": "^16.0.0",
+    "dtslint": "^3.3.0",
     "nyc": "^15.0.0",
     "prettier": "^1.0.0",
     "remark-cli": "^7.0.0",
     "remark-preset-wooorm": "^6.0.0",
     "tape": "^4.0.0",
     "tinyify": "^2.0.0",
-    "tsd": "^0.11.0",
+    "unified": "^8.4.2",
     "xo": "^0.26.0"
   },
   "scripts": {
@@ -50,7 +51,7 @@
     "build": "npm run build-bundle && npm run build-mangle",
     "test-api": "node test",
     "test-coverage": "nyc --reporter lcov tape test.js",
-    "test-types": "tsd",
+    "test-types": "dtslint types",
     "test": "npm run format && npm run build && npm run test-coverage && npm run test-types"
   },
   "prettier": {
