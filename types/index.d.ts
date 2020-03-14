@@ -12,6 +12,12 @@ declare namespace unistUtilModifyChildren {
   type Modify = (tree: Node) => void
 }
 
+/**
+ * unist utility to modify direct children of a parent.
+ *
+ * @param callback modifier function that (optionally) returns a next position (number) to iterate.
+ * @returns callback to be used on the tree.
+ */
 declare function unistUtilModifyChildren(
   modifier: unistUtilModifyChildren.Modifier
 ): unistUtilModifyChildren.Modify
