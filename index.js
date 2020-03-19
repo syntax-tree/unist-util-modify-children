@@ -21,7 +21,7 @@ function iteratorFactory(callback) {
       throw new Error('Missing children in `parent` for `modifier`')
     }
 
-    return iterate(children, callback, parent)
+    iterate(children, callback, parent)
   }
 }
 
