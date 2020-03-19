@@ -2,7 +2,7 @@ import {Node} from 'unist'
 
 import unified = require('unified')
 
-import * as modifyChildren from 'unist-util-modify-children'
+import modifyChildren = require('unist-util-modify-children')
 
 const node: Node = {
   type: 'root',
@@ -16,8 +16,10 @@ const node: Node = {
 // $ExpectType Modify
 modifyChildren((node, index) => index + 1)
 
+/* eslint-disable @typescript-eslint/no-empty-function */
 // $ExpectType Modify
 modifyChildren(() => {})
+/* eslint-enable @typescript-eslint/no-empty-function */
 
 // $ExpectError
 modifyChildren(() => '')
