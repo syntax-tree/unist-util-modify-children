@@ -36,16 +36,16 @@
     "browserify": "^16.0.0",
     "dtslint": "^3.3.0",
     "nyc": "^15.0.0",
-    "prettier": "^1.0.0",
-    "remark-cli": "^7.0.0",
-    "remark-preset-wooorm": "^6.0.0",
-    "tape": "^4.0.0",
+    "prettier": "^2.0.0",
+    "remark-cli": "^8.0.0",
+    "remark-preset-wooorm": "^7.0.0",
+    "tape": "^5.0.0",
     "tinyify": "^2.0.0",
-    "unified": "^8.4.2",
-    "xo": "^0.28.0"
+    "unified": "^9.0.0",
+    "xo": "^0.32.0"
   },
   "scripts": {
-    "format": "remark . -qfo && prettier --write \"**/*.js\" && xo --fix",
+    "format": "remark . -qfo && prettier . --write && xo --fix",
     "build-bundle": "browserify . -s unistUtilModifyChildren > unist-util-modify-children.js",
     "build-mangle": "browserify . -s unistUtilModifyChildren -p tinyify > unist-util-modify-children.min.js",
     "build": "npm run build-bundle && npm run build-mangle",
@@ -66,6 +66,7 @@
     "prettier": true,
     "esnext": false,
     "ignore": [
+      "types/",
       "unist-util-modify-children.js"
     ]
   },

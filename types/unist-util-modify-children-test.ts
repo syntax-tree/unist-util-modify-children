@@ -28,7 +28,7 @@ modifyChildren(() => '')
 modifyChildren((node, index) => index + 1)(node)
 
 // Usable in unified transform
-unified().use(() => tree => {
+unified().use(() => (tree) => {
   const modify = modifyChildren((node, index, parent) => {
     if (node.type === 'node') {
       parent.children.splice(index, 1, {

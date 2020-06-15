@@ -5,9 +5,9 @@ var modifyChildren = require('.')
 
 var noop = Function.prototype
 
-test('modifyChildren()', function(t) {
+test('modifyChildren()', function (t) {
   t.throws(
-    function() {
+    function () {
       modifyChildren(noop)()
     },
     /Missing children in `parent`/,
@@ -15,21 +15,21 @@ test('modifyChildren()', function(t) {
   )
 
   t.throws(
-    function() {
+    function () {
       modifyChildren(noop)({})
     },
     /Missing children in `parent`/,
     'should throw without parent'
   )
 
-  t.test('should invoke `fn` for each child in `parent`', function(st) {
+  t.test('should invoke `fn` for each child in `parent`', function (st) {
     var values = [0, 1, 2, 3]
     var context = {}
     var n = -1
 
     context.children = values
 
-    modifyChildren(function(child, index, parent) {
+    modifyChildren(function (child, index, parent) {
       n++
       st.strictEqual(child, values[n])
       st.strictEqual(index, n)
@@ -39,11 +39,11 @@ test('modifyChildren()', function(t) {
     st.end()
   })
 
-  t.test('should work when new children are added', function(st) {
+  t.test('should work when new children are added', function (st) {
     var values = [0, 1, 2, 3, 4, 5, 6]
     var n = -1
 
-    modifyChildren(function(child, index, parent) {
+    modifyChildren(function (child, index, parent) {
       n++
 
       if (index < 3) {
@@ -57,14 +57,14 @@ test('modifyChildren()', function(t) {
     st.end()
   })
 
-  t.test('should skip forwards', function(st) {
+  t.test('should skip forwards', function (st) {
     var values = [0, 1, 2, 3]
     var n = -1
     var context = {}
 
     context.children = [0, 1, 3]
 
-    modifyChildren(function(child, index, parent) {
+    modifyChildren(function (child, index, parent) {
       st.strictEqual(child, values[++n])
 
       if (child === 1) {
@@ -78,7 +78,7 @@ test('modifyChildren()', function(t) {
     st.end()
   })
 
-  t.test('should skip backwards', function(st) {
+  t.test('should skip backwards', function (st) {
     var invocations = [0, 1, -1, 0, 1, 2, 3]
     var n = -1
     var context = {}
@@ -86,7 +86,7 @@ test('modifyChildren()', function(t) {
 
     context.children = [0, 1, 2, 3]
 
-    modifyChildren(function(child, index, parent) {
+    modifyChildren(function (child, index, parent) {
       st.strictEqual(child, invocations[++n])
 
       if (!inserted && child === 1) {
