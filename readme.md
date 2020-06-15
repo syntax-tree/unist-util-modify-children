@@ -89,8 +89,7 @@ Invoke the bound [`modifier`][modifier] for each child in `parent`
 *   [`unist-util-map`](https://github.com/syntax-tree/unist-util-map)
     — Create a new tree with all nodes mapped by a given function
 *   [`unist-util-flatmap`](https://gitlab.com/staltz/unist-util-flatmap)
-    — Create a new tree by mapping (to an array) with the provided function and
-    then flattening
+    — Create a new tree by mapping (to an array) with the given function
 *   [`unist-util-find-after`](https://github.com/syntax-tree/unist-util-find-after)
     — Find a node after another node
 *   [`unist-util-find-before`](https://github.com/syntax-tree/unist-util-find-before)
