@@ -121,9 +121,9 @@ abide by its terms.
 
 <!-- Definitions -->
 
-[build-badge]: https://img.shields.io/travis/syntax-tree/unist-util-modify-children.svg
+[build-badge]: https://github.com/syntax-tree/unist-util-modify-children/workflows/main/badge.svg
 
-[build]: https://travis-ci.org/syntax-tree/unist-util-modify-children
+[build]: https://github.com/syntax-tree/unist-util-modify-children/actions
 
 [coverage-badge]: https://img.shields.io/codecov/c/github/syntax-tree/unist-util-modify-children.svg
 
