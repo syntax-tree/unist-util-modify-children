@@ -1,5 +1,2 @@
 coverage/
-unist-util-modify-children.js
-unist-util-modify-children.min.js
-*.json
 *.md

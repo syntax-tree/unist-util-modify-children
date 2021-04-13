@@ -12,6 +12,9 @@ Modify direct children of a parent.
 
 ## Install
 
+This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
+Node 12+ is needed to use it and it must be `import`ed instead of `require`d.
+
 [npm][]:
 
 ```sh
@@ -21,8 +24,8 @@ npm install unist-util-modify-children
 ## Use
 
 ```js
-var u = require('unist-builder')
-var modifyChildren = require('unist-util-modify-children')
+import u from 'unist-builder'
+import {modifyChildren} from 'unist-util-modify-children'
 
 var modify = modifyChildren(modifier)
 
@@ -58,6 +61,9 @@ Yields:
 ```
 
 ## API
+
+This package exports the following identifiers: `modifyChildren`.
+There is no default export.
 
 ### `modify = modifyChildren(modifier)`
 

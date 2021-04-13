@@ -1,7 +1,5 @@
-'use strict'
-
-var test = require('tape')
-var modifyChildren = require('.')
+import test from 'tape'
+import {modifyChildren} from './index.js'
 
 var noop = Function.prototype
 

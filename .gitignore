@@ -1,8 +1,5 @@
 .DS_Store
 *.log
-.nyc_output/
 coverage/
 node_modules/
-unist-util-modify-children.js
-unist-util-modify-children.min.js
 yarn.lock

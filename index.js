@@ -1,12 +1,8 @@
-'use strict'
-
-var iterate = require('array-iterate')
-
-module.exports = modifierFactory
+import {arrayIterate} from 'array-iterate'
 
 // Turn `callback` into a child-modifier accepting a parent.  See
 // `array-iterate` for more info.
-function modifierFactory(callback) {
+export function modifyChildren(callback) {
   return iterator
 
   function iterator(parent) {
@@ -14,7 +10,7 @@ function modifierFactory(callback) {
       throw new Error('Missing children in `parent` for `modifier`')
     }
 
-    iterate(parent.children, iteratee, parent)
+    arrayIterate(parent.children, iteratee, parent)
   }
 
   // Pass the context as the third argument to `callback`.
