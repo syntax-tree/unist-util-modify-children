@@ -1,3 +1,8 @@
+/**
+ * @typedef {import('unist').Literal<number>} ExampleLiteral
+ * @typedef {import('unist').Parent<ExampleLiteral>} ExampleParent
+ */
+
 import test from 'tape'
 import {modifyChildren} from './index.js'
 
@@ -6,7 +11,7 @@ function noop() {}
 test('modifyChildren()', function (t) {
   t.throws(
     function () {
-      // @ts-ignore runtime.
+      // @ts-expect-error runtime.
       modifyChildren(noop)()
     },
     /Missing children in `parent`/,
@@ -15,7 +20,7 @@ test('modifyChildren()', function (t) {
 
   t.throws(
     function () {
-      // @ts-ignore runtime.
+      // @ts-expect-error runtime.
       modifyChildren(noop)({})
     },
     /Missing children in `parent`/,
@@ -54,7 +59,11 @@ test('modifyChildren()', function (t) {
     ]
     var n = -1
 
-    modifyChildren(function (child, index, parent) {
+    modifyChildren(function (
+      /** @type {ExampleLiteral} */ child,
+      index,
+      /** @type {ExampleParent} */ parent
+    ) {
       n++
 
       if (index < 3) {
@@ -63,15 +72,17 @@ test('modifyChildren()', function (t) {
 
       st.deepEqual(child, children[n])
       st.deepEqual(index, n)
-    })({
-      type: 'y',
-      children: [
-        {type: 'x', value: 0},
-        {type: 'x', value: 1},
-        {type: 'x', value: 2},
-        {type: 'x', value: 3}
-      ]
-    })
+    })(
+      /** @type {ExampleParent} */ ({
+        type: 'y',
+        children: [
+          {type: 'x', value: 0},
+          {type: 'x', value: 1},
+          {type: 'x', value: 2},
+          {type: 'x', value: 3}
+        ]
+      })
+    )
 
     st.end()
   })
@@ -93,7 +104,11 @@ test('modifyChildren()', function (t) {
       ]
     }
 
-    modifyChildren(function (child, index, parent) {
+    modifyChildren(function (
+      /** @type {ExampleLiteral} */ child,
+      index,
+      /** @type {ExampleParent} */ parent
+    ) {
       st.deepEqual(child, children[++n])
 
       if (child.value === 1) {
@@ -129,7 +144,11 @@ test('modifyChildren()', function (t) {
     }
     var inserted = false
 
-    modifyChildren(function (child, _, parent) {
+    modifyChildren(function (
+      /** @type {ExampleLiteral} */ child,
+      _,
+      /** @type {ExampleParent} */ parent
+    ) {
       st.deepEqual(child, calls[++n])
 
       if (!inserted && child.value === 1) {

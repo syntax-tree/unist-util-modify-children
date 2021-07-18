@@ -1,5 +1,3 @@
-import {arrayIterate} from 'array-iterate'
-
 /**
  * @typedef {import('unist').Parent} Parent
  * @typedef {import('unist').Node} Node
@@ -14,6 +12,8 @@ import {arrayIterate} from 'array-iterate'
  * @param {Parent} node
  * @returns {void}
  */
+
+import {arrayIterate} from 'array-iterate'
 
 /**
  * Turn `callback` into a child-modifier accepting a parent.
