@@ -27,9 +27,9 @@ npm install unist-util-modify-children
 import u from 'unist-builder'
 import {modifyChildren} from 'unist-util-modify-children'
 
-var modify = modifyChildren(modifier)
+const modify = modifyChildren(modifier)
 
-var tree = u('root', [
+const tree = u('root', [
   u('leaf', '1'),
   u('node', [u('leaf', '2')]),
   u('leaf', '3')

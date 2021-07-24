@@ -8,9 +8,9 @@ import {modifyChildren} from './index.js'
 
 function noop() {}
 
-test('modifyChildren()', function (t) {
+test('modifyChildren()', (t) => {
   t.throws(
-    function () {
+    () => {
       // @ts-expect-error runtime.
       modifyChildren(noop)()
     },
@@ -19,7 +19,7 @@ test('modifyChildren()', function (t) {
   )
 
   t.throws(
-    function () {
+    () => {
       // @ts-expect-error runtime.
       modifyChildren(noop)({})
     },
@@ -27,17 +27,17 @@ test('modifyChildren()', function (t) {
     'should throw without parent'
   )
 
-  t.test('should invoke `fn` for each child in `parent`', function (st) {
-    var children = [
+  t.test('should invoke `fn` for each child in `parent`', (st) => {
+    const children = [
       {type: 'x', value: 0},
       {type: 'x', value: 1},
       {type: 'x', value: 2},
       {type: 'x', value: 3}
     ]
-    var context = {type: 'y', children}
-    var n = -1
+    const context = {type: 'y', children}
+    let n = -1
 
-    modifyChildren(function (child, index, parent) {
+    modifyChildren((child, index, parent) => {
       n++
       st.strictEqual(child, children[n])
       st.strictEqual(index, n)
@@ -47,8 +47,8 @@ test('modifyChildren()', function (t) {
     st.end()
   })
 
-  t.test('should work when new children are added', function (st) {
-    var children = [
+  t.test('should work when new children are added', (st) => {
+    const children = [
       {type: 'x', value: 0},
       {type: 'x', value: 1},
       {type: 'x', value: 2},
@@ -57,22 +57,24 @@ test('modifyChildren()', function (t) {
       {type: 'x', value: 5},
       {type: 'x', value: 6}
     ]
-    var n = -1
+    let n = -1
 
-    modifyChildren(function (
-      /** @type {ExampleLiteral} */ child,
-      index,
-      /** @type {ExampleParent} */ parent
-    ) {
-      n++
+    modifyChildren(
+      (
+        /** @type {ExampleLiteral} */ child,
+        index,
+        /** @type {ExampleParent} */ parent
+      ) => {
+        n++
 
-      if (index < 3) {
-        parent.children.push({type: 'x', value: parent.children.length})
+        if (index < 3) {
+          parent.children.push({type: 'x', value: parent.children.length})
+        }
+
+        st.deepEqual(child, children[n])
+        st.deepEqual(index, n)
       }
-
-      st.deepEqual(child, children[n])
-      st.deepEqual(index, n)
-    })(
+    )(
       /** @type {ExampleParent} */ ({
         type: 'y',
         children: [
@@ -87,15 +89,15 @@ test('modifyChildren()', function (t) {
     st.end()
   })
 
-  t.test('should skip forwards', function (st) {
-    var children = [
+  t.test('should skip forwards', (st) => {
+    const children = [
       {type: 'x', value: 0},
       {type: 'x', value: 1},
       {type: 'x', value: 2},
       {type: 'x', value: 3}
     ]
-    var n = -1
-    var context = {
+    let n = -1
+    const context = {
       type: 'y',
       children: [
         {type: 'x', value: 0},
@@ -104,26 +106,28 @@ test('modifyChildren()', function (t) {
       ]
     }
 
-    modifyChildren(function (
-      /** @type {ExampleLiteral} */ child,
-      index,
-      /** @type {ExampleParent} */ parent
-    ) {
-      st.deepEqual(child, children[++n])
+    modifyChildren(
+      (
+        /** @type {ExampleLiteral} */ child,
+        index,
+        /** @type {ExampleParent} */ parent
+      ) => {
+        st.deepEqual(child, children[++n])
 
-      if (child.value === 1) {
-        parent.children.splice(index + 1, 0, {type: 'x', value: 2})
-        return index + 1
+        if (child.value === 1) {
+          parent.children.splice(index + 1, 0, {type: 'x', value: 2})
+          return index + 1
+        }
       }
-    })(context)
+    )(context)
 
     st.deepEqual(context.children, children)
 
     st.end()
   })
 
-  t.test('should skip backwards', function (st) {
-    var calls = [
+  t.test('should skip backwards', (st) => {
+    const calls = [
       {type: 'x', value: 0},
       {type: 'x', value: 1},
       {type: 'x', value: -1},
@@ -132,8 +136,8 @@ test('modifyChildren()', function (t) {
       {type: 'x', value: 2},
       {type: 'x', value: 3}
     ]
-    var n = -1
-    var context = {
+    let n = -1
+    const context = {
       type: 'y',
       children: [
         {type: 'x', value: 0},
@@ -142,21 +146,23 @@ test('modifyChildren()', function (t) {
         {type: 'x', value: 3}
       ]
     }
-    var inserted = false
+    let inserted = false
 
-    modifyChildren(function (
-      /** @type {ExampleLiteral} */ child,
-      _,
-      /** @type {ExampleParent} */ parent
-    ) {
-      st.deepEqual(child, calls[++n])
+    modifyChildren(
+      (
+        /** @type {ExampleLiteral} */ child,
+        _,
+        /** @type {ExampleParent} */ parent
+      ) => {
+        st.deepEqual(child, calls[++n])
 
-      if (!inserted && child.value === 1) {
-        inserted = true
-        parent.children.unshift({type: 'x', value: -1})
-        return -1
+        if (!inserted && child.value === 1) {
+          inserted = true
+          parent.children.unshift({type: 'x', value: -1})
+          return -1
+        }
       }
-    })(context)
+    )(context)
 
     st.deepEqual(context.children, [
       {type: 'x', value: -1},
