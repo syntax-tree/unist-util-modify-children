@@ -8,17 +8,53 @@
 [![Backers][backers-badge]][collective]
 [![Chat][chat-badge]][chat]
 
-Modify direct children of a parent.
+[unist][] utility to change children of a parent.
+
+## Contents
+
+*   [What is this?](#what-is-this)
+*   [When should I use this?](#when-should-i-use-this)
+*   [Install](#install)
+*   [Use](#use)
+*   [API](#api)
+    *   [`modifyChildren(modifier)`](#modifychildrenmodifier)
+*   [Types](#types)
+*   [Compatibility](#compatibility)
+*   [Related](#related)
+*   [Contribute](#contribute)
+*   [License](#license)
+
+## What is this?
+
+This is a tiny utility that you can use to create a reusable function that
+modifies children.
+
+## When should I use this?
+
+Probably never!
+Use [`unist-util-visit`][unist-util-visit].
 
 ## Install
 
-This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
-Node 12+ is needed to use it and it must be `import`ed instead of `require`d.
-
-[npm][]:
+This package is [ESM only][esm].
+In Node.js (version 12.20+, 14.14+, 16.0+, 18.0+), install with [npm][]:
 
 ```sh
 npm install unist-util-modify-children
+```
+
+In Deno with [`esm.sh`][esmsh]:
+
+```js
+import {modifyChildren} from "https://esm.sh/unist-util-modify-children@3"
+```
+
+In browsers with [`esm.sh`][esmsh]:
+
+```html
+<script type="module">
+  import {modifyChildren} from "https://esm.sh/unist-util-modify-children@3?bundle"
+</script>
 ```
 
 ## Use
@@ -27,24 +63,21 @@ npm install unist-util-modify-children
 import u from 'unist-builder'
 import {modifyChildren} from 'unist-util-modify-children'
 
-const modify = modifyChildren(modifier)
-
 const tree = u('root', [
   u('leaf', '1'),
-  u('node', [u('leaf', '2')]),
+  u('parent', [u('leaf', '2')]),
   u('leaf', '3')
 ])
+const modify = modifyChildren(function (node, index, parent) {
+  if (node.type === 'parent') {
+    parent.children.splice(index, 1, {type: 'subtree', children: parent.children})
+    return index + 1
+  }
+})
 
 modify(tree)
 
 console.dir(tree, {depth: null})
-
-function modifier(node, index, parent) {
-  if (node.type === 'node') {
-    parent.children.splice(index, 1, {type: 'subtree', children: node.children})
-    return index + 1
-  }
-}
 ```
 
 Yields:
@@ -62,59 +95,74 @@ Yields:
 
 ## API
 
-This package exports the following identifiers: `modifyChildren`.
+This package exports the identifier `modifyChildren`.
 There is no default export.
 
-### `modify = modifyChildren(modifier)`
+### `modifyChildren(modifier)`
 
-Wrap [`modifier`][modifier] to be invoked for each child in the node given to
-[`modify`][modify].
-
-#### `next? = modifier(child, index, parent)`
-
-Invoked if [`modify`][modify] is called on a parent node for each `child`
-in `parent`.
+Wrap [`modifier`][modifier] to be called for each child in the nodes later given
+to [`modify`][modify].
 
 ###### Returns
 
-`number` (optional) — Next position to iterate.
+[`Modify`][modify].
 
-#### `function modify(parent)`
+#### `next? = modifier(child, index, parent)`
 
-Invoke the bound [`modifier`][modifier] for each child in `parent`
-([`Node`][node]).
+Callback called for each `child` in `parent` later given to [`modify`][modify].
+
+###### Returns
+
+Position to move to next (`number?`).
+
+#### `modify(parent)`
+
+Call the bound [`modifier`][modifier] for each child in `parent`
+([`Parent`][parent]).
+
+## Types
+
+This package is fully typed with [TypeScript][].
+It exports the additional types `Modifier` and `Modify`.
+
+## Compatibility
+
+Projects maintained by the unified collective are compatible with all maintained
+versions of Node.js.
+As of now, that is Node.js 12.20+, 14.14+, 16.0+, and 18.0+.
+Our projects sometimes work with older versions, but this is not guaranteed.
 
 ## Related
 
 *   [`unist-util-visit`](https://github.com/syntax-tree/unist-util-visit)
-    — Recursively walk over nodes
+    — walk the tree
 *   [`unist-util-visit-parents`](https://github.com/syntax-tree/unist-util-visit-parents)
-    — Like `visit`, but with a stack of parents
+    — walk the tree with a stack of parents
 *   [`unist-util-filter`](https://github.com/syntax-tree/unist-util-filter)
-    — Create a new tree with all nodes that pass a test
+    — create a new tree with all nodes that pass a test
 *   [`unist-util-map`](https://github.com/syntax-tree/unist-util-map)
-    — Create a new tree with all nodes mapped by a given function
+    — create a new tree with all nodes mapped by a given function
 *   [`unist-util-flatmap`](https://gitlab.com/staltz/unist-util-flatmap)
-    — Create a new tree by mapping (to an array) with the given function
+    — create a new tree by mapping (to an array) with the given function
 *   [`unist-util-find-after`](https://github.com/syntax-tree/unist-util-find-after)
-    — Find a node after another node
+    — find a node after another node
 *   [`unist-util-find-before`](https://github.com/syntax-tree/unist-util-find-before)
-    — Find a node before another node
+    — find a node before another node
 *   [`unist-util-find-all-after`](https://github.com/syntax-tree/unist-util-find-all-after)
-    — Find all nodes after another node
+    — find all nodes after another node
 *   [`unist-util-find-all-before`](https://github.com/syntax-tree/unist-util-find-all-before)
-    — Find all nodes before another node
+    — find all nodes before another node
 *   [`unist-util-find-all-between`](https://github.com/mrzmmr/unist-util-find-all-between)
-    — Find all nodes between two nodes
+    — find all nodes between two nodes
 *   [`unist-util-remove`](https://github.com/syntax-tree/unist-util-remove)
-    — Remove nodes from a tree that pass a test
+    — remove nodes from a tree that pass a test
 *   [`unist-util-select`](https://github.com/syntax-tree/unist-util-select)
-    — Select nodes with CSS-like selectors
+    — select nodes with CSS-like selectors
 
 ## Contribute
 
-See [`contributing.md` in `syntax-tree/.github`][contributing] for ways to get
-started.
+See [`contributing.md`][contributing] in [`syntax-tree/.github`][health] for
+ways to get started.
 See [`support.md`][support] for ways to get help.
 
 This project has a [code of conduct][coc].
@@ -155,18 +203,30 @@ abide by its terms.
 
 [npm]: https://docs.npmjs.com/cli/install
 
+[esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+
+[esmsh]: https://esm.sh
+
+[typescript]: https://www.typescriptlang.org
+
 [license]: license
 
 [author]: https://wooorm.com
 
-[contributing]: https://github.com/syntax-tree/.github/blob/HEAD/contributing.md
+[health]: https://github.com/syntax-tree/.github
 
-[support]: https://github.com/syntax-tree/.github/blob/HEAD/support.md
+[contributing]: https://github.com/syntax-tree/.github/blob/main/contributing.md
 
-[coc]: https://github.com/syntax-tree/.github/blob/HEAD/code-of-conduct.md
+[support]: https://github.com/syntax-tree/.github/blob/main/support.md
 
-[node]: https://github.com/syntax-tree/unist#node
+[coc]: https://github.com/syntax-tree/.github/blob/main/code-of-conduct.md
 
 [modifier]: #next--modifierchild-index-parent
 
-[modify]: #function-modifyparent
+[modify]: #modifyparent
+
+[unist]: https://github.com/syntax-tree/unist
+
+[parent]: https://github.com/syntax-tree/unist#parent
+
+[unist-util-visit]: https://github.com/syntax-tree/unist-util-visit

@@ -27,7 +27,7 @@ test('modifyChildren()', (t) => {
     'should throw without parent'
   )
 
-  t.test('should invoke `fn` for each child in `parent`', (st) => {
+  t.test('should call `fn` for each child in `parent`', (st) => {
     const children = [
       {type: 'x', value: 0},
       {type: 'x', value: 1},
