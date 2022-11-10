@@ -1,6 +1,6 @@
 {
   "name": "unist-util-modify-children",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "unist utility to modify direct children of a parent",
   "license": "MIT",
   "keywords": [
