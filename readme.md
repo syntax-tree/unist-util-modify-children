@@ -123,7 +123,7 @@ Call the bound [`modifier`][modifier] for each child in `parent`
 ## Types
 
 This package is fully typed with [TypeScript][].
-It exports the additional types `Modifier` and `Modify`.
+It exports the additional types `Modifier<Parent>` and `Modify<Parent>`.
 
 ## Compatibility
 

@@ -1,10 +1,13 @@
 /**
- * @typedef {import('unist').Parent} Parent
- * @typedef {import('unist').Node} Node
- *
+ * @typedef {import('unist').Parent} UnistParent
+ * @typedef {import('unist').Node} UnistNode
+ */
+
+/**
+ * @template {UnistParent} Parent
  * @callback Modifier
  *   Callback called for each `child` in `parent` later given to `modify`.
- * @param {Node} node
+ * @param {Parent['children'][number]} node
  *   Child of `parent`.
  * @param {number} index
  *   Position of `child` in `parent`.
@@ -12,7 +15,10 @@
  *   Parent node.
  * @returns {number|void}
  *   Position to move to next.
- *
+ */
+
+/**
+ * @template {UnistParent} Parent
  * @callback Modify
  *   Modify children of `parent`.
  * @param {Parent} node
@@ -27,15 +33,16 @@ import {arrayIterate} from 'array-iterate'
  * Wrap `modifier` to be called for each child in the nodes later given to
  * `modify`.
  *
- * @param {Modifier} modifier
+ * @template {UnistParent} Parent
+ * @param {Modifier<Parent>} modifier
  *   Callback called for each `child` in `parent` later given to `modify`.
- * @returns {Modify}
+ * @returns {Modify<Parent>}
  *   Modify children of `parent`.
  */
 export function modifyChildren(modifier) {
   return modify
 
-  /** @type {Modify} */
+  /** @type {Modify<UnistParent>} */
   function modify(parent) {
     if (!parent || !parent.children) {
       throw new Error('Missing children in `parent` for `modifier`')
@@ -48,7 +55,7 @@ export function modifyChildren(modifier) {
    * Pass the context as the third argument to `modifier`.
    *
    * @this {Parent}
-   * @param {Node} node
+   * @param {UnistNode} node
    * @param {number} index
    */
   function iteratee(node, index) {
