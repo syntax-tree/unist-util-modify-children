@@ -6,10 +6,17 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import {modifyChildren} from './index.js'
+import * as mod from './index.js'
 
 function noop() {}
 
-test('modifyChildren()', () => {
+test('modifyChildren', () => {
+  assert.deepEqual(
+    Object.keys(mod).sort(),
+    ['modifyChildren'],
+    'should expose the public api'
+  )
+
   assert.throws(
     () => {
       // @ts-expect-error runtime.
