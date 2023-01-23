@@ -18,6 +18,8 @@
 *   [Use](#use)
 *   [API](#api)
     *   [`modifyChildren(modifier)`](#modifychildrenmodifier)
+    *   [`Modifier`](#modifier)
+    *   [`Modify`](#modify)
 *   [Types](#types)
 *   [Compatibility](#compatibility)
 *   [Related](#related)
@@ -37,7 +39,7 @@ Use [`unist-util-visit`][unist-util-visit].
 ## Install
 
 This package is [ESM only][esm].
-In Node.js (version 12.20+, 14.14+, 16.0+, 18.0+), install with [npm][]:
+In Node.js (version 14.14+ and 16.0+), install with [npm][]:
 
 ```sh
 npm install unist-util-modify-children
@@ -46,14 +48,14 @@ npm install unist-util-modify-children
 In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import {modifyChildren} from "https://esm.sh/unist-util-modify-children@3"
+import {modifyChildren} from 'https://esm.sh/unist-util-modify-children@3'
 ```
 
 In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import {modifyChildren} from "https://esm.sh/unist-util-modify-children@3?bundle"
+  import {modifyChildren} from 'https://esm.sh/unist-util-modify-children@3?bundle'
 </script>
 ```
 
@@ -95,41 +97,65 @@ Yields:
 
 ## API
 
-This package exports the identifier `modifyChildren`.
+This package exports the identifier [`modifyChildren`][api-modifychildren].
 There is no default export.
 
 ### `modifyChildren(modifier)`
 
-Wrap [`modifier`][modifier] to be called for each child in the nodes later given
-to [`modify`][modify].
+Wrap `modifier` to be called for each child in the nodes later given to
+`modify`.
+
+###### Parameters
+
+*   `modifier` ([`Modifier`][api-modifier])
+    — callback called for each `child` in `parent` later given to `modify`
 
 ###### Returns
 
-[`Modify`][modify].
+Modify children of `parent` ([`Modify`][api-modify]).
 
-#### `next? = modifier(child, index, parent)`
+### `Modifier`
 
-Callback called for each `child` in `parent` later given to [`modify`][modify].
+Callback called for each `child` in `parent` later given to `modify`
+(TypeScript type).
+
+###### Parameters
+
+*   `child` ([`Node`][node])
+    — child of `parent`
+*   `index` (`number`)
+    — position of `child` in `parent`
+*   `parent` ([`Node`][node])
+    — parent node
 
 ###### Returns
 
-Position to move to next (`number?`).
+Position to move to next (optional) (`number` or `void`).
 
-#### `modify(parent)`
+### `Modify`
 
-Call the bound [`modifier`][modifier] for each child in `parent`
-([`Parent`][parent]).
+Modify children of `parent` (TypeScript type).
+
+###### Parameters
+
+*   `parent` ([`Node`][node])
+    — parent node
+
+###### Returns
+
+Nothing (`void`).
 
 ## Types
 
 This package is fully typed with [TypeScript][].
-It exports the additional types `Modifier<Parent>` and `Modify<Parent>`.
+It exports the additional types [`Modifier`][api-modifier] and
+[`Modify`][api-modify].
 
 ## Compatibility
 
 Projects maintained by the unified collective are compatible with all maintained
 versions of Node.js.
-As of now, that is Node.js 12.20+, 14.14+, 16.0+, and 18.0+.
+As of now, that is Node.js 14.14+ and 16.0+.
 Our projects sometimes work with older versions, but this is not guaranteed.
 
 ## Related
@@ -221,12 +247,14 @@ abide by its terms.
 
 [coc]: https://github.com/syntax-tree/.github/blob/main/code-of-conduct.md
 
-[modifier]: #next--modifierchild-index-parent
-
-[modify]: #modifyparent
-
 [unist]: https://github.com/syntax-tree/unist
 
-[parent]: https://github.com/syntax-tree/unist#parent
+[node]: https://github.com/syntax-tree/unist#nodes
 
 [unist-util-visit]: https://github.com/syntax-tree/unist-util-visit
+
+[api-modifychildren]: #modifychildrenmodifier
+
+[api-modifier]: #modifier
+
+[api-modify]: #modify
