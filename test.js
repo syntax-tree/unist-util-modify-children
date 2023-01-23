@@ -3,13 +3,14 @@
  * @typedef {import('unist').Parent<ExampleLiteral>} ExampleParent
  */
 
-import test from 'tape'
+import assert from 'node:assert/strict'
+import test from 'node:test'
 import {modifyChildren} from './index.js'
 
 function noop() {}
 
-test('modifyChildren()', (t) => {
-  t.throws(
+test('modifyChildren()', () => {
+  assert.throws(
     () => {
       // @ts-expect-error runtime.
       modifyChildren(noop)()
@@ -18,7 +19,7 @@ test('modifyChildren()', (t) => {
     'should throw without node'
   )
 
-  t.throws(
+  assert.throws(
     () => {
       // @ts-expect-error runtime.
       modifyChildren(noop)({})
@@ -26,116 +27,54 @@ test('modifyChildren()', (t) => {
     /Missing children in `parent`/,
     'should throw without parent'
   )
+})
 
-  t.test('should call `fn` for each child in `parent`', (st) => {
-    const children = [
-      {type: 'x', value: 0},
-      {type: 'x', value: 1},
-      {type: 'x', value: 2},
-      {type: 'x', value: 3}
-    ]
-    const context = {type: 'y', children}
-    let n = -1
+test('should call `fn` for each child in `parent`', () => {
+  const children = [
+    {type: 'x', value: 0},
+    {type: 'x', value: 1},
+    {type: 'x', value: 2},
+    {type: 'x', value: 3}
+  ]
+  const context = {type: 'y', children}
+  let n = -1
 
-    modifyChildren((child, index, parent) => {
-      n++
-      st.strictEqual(child, children[n])
-      st.strictEqual(index, n)
-      st.strictEqual(parent, context)
-    })(context)
+  modifyChildren((child, index, parent) => {
+    n++
+    assert.strictEqual(child, children[n])
+    assert.strictEqual(index, n)
+    assert.strictEqual(parent, context)
+  })(context)
+})
 
-    st.end()
-  })
+test('should work when new children are added', () => {
+  const children = [
+    {type: 'x', value: 0},
+    {type: 'x', value: 1},
+    {type: 'x', value: 2},
+    {type: 'x', value: 3},
+    {type: 'x', value: 4},
+    {type: 'x', value: 5},
+    {type: 'x', value: 6}
+  ]
+  let n = -1
 
-  t.test('should work when new children are added', (st) => {
-    const children = [
-      {type: 'x', value: 0},
-      {type: 'x', value: 1},
-      {type: 'x', value: 2},
-      {type: 'x', value: 3},
-      {type: 'x', value: 4},
-      {type: 'x', value: 5},
-      {type: 'x', value: 6}
-    ]
-    let n = -1
+  modifyChildren((child, index, parent) => {
+    n++
 
-    modifyChildren((child, index, parent) => {
-      n++
-
-      if (index < 3) {
-        parent.children.push(
-          /** @type {ExampleLiteral} */ ({
-            type: 'x',
-            value: parent.children.length
-          })
-        )
-      }
-
-      st.deepEqual(child, children[n])
-      st.deepEqual(index, n)
-    })(
-      /** @type {ExampleParent} */ ({
-        type: 'y',
-        children: [
-          {type: 'x', value: 0},
-          {type: 'x', value: 1},
-          {type: 'x', value: 2},
-          {type: 'x', value: 3}
-        ]
-      })
-    )
-
-    st.end()
-  })
-
-  t.test('should skip forwards', (st) => {
-    const children = [
-      {type: 'x', value: 0},
-      {type: 'x', value: 1},
-      {type: 'x', value: 2},
-      {type: 'x', value: 3}
-    ]
-    let n = -1
-    const context = {
-      type: 'y',
-      children: [
-        {type: 'x', value: 0},
-        {type: 'x', value: 1},
-        {type: 'x', value: 3}
-      ]
+    if (index < 3) {
+      parent.children.push(
+        /** @type {ExampleLiteral} */ ({
+          type: 'x',
+          value: parent.children.length
+        })
+      )
     }
 
-    modifyChildren((child, index, parent) => {
-      st.deepEqual(child, children[++n])
-
-      // @ts-expect-error: literal.
-      if (child.value === 1) {
-        parent.children.splice(
-          index + 1,
-          0,
-          /** @type {ExampleLiteral} */ ({type: 'x', value: 2})
-        )
-        return index + 1
-      }
-    })(context)
-
-    st.deepEqual(context.children, children)
-
-    st.end()
-  })
-
-  t.test('should skip backwards', (st) => {
-    const calls = [
-      {type: 'x', value: 0},
-      {type: 'x', value: 1},
-      {type: 'x', value: -1},
-      {type: 'x', value: 0},
-      {type: 'x', value: 1},
-      {type: 'x', value: 2},
-      {type: 'x', value: 3}
-    ]
-    let n = -1
-    const context = {
+    assert.deepEqual(child, children[n])
+    assert.deepEqual(index, n)
+  })(
+    /** @type {ExampleParent} */ ({
       type: 'y',
       children: [
         {type: 'x', value: 0},
@@ -143,32 +82,82 @@ test('modifyChildren()', (t) => {
         {type: 'x', value: 2},
         {type: 'x', value: 3}
       ]
+    })
+  )
+})
+
+test('should skip forwards', () => {
+  const children = [
+    {type: 'x', value: 0},
+    {type: 'x', value: 1},
+    {type: 'x', value: 2},
+    {type: 'x', value: 3}
+  ]
+  let n = -1
+  const context = {
+    type: 'y',
+    children: [
+      {type: 'x', value: 0},
+      {type: 'x', value: 1},
+      {type: 'x', value: 3}
+    ]
+  }
+
+  modifyChildren((child, index, parent) => {
+    assert.deepEqual(child, children[++n])
+
+    if (child.value === 1) {
+      parent.children.splice(
+        index + 1,
+        0,
+        /** @type {ExampleLiteral} */ ({type: 'x', value: 2})
+      )
+      return index + 1
     }
-    let inserted = false
+  })(context)
 
-    modifyChildren((child, _, parent) => {
-      st.deepEqual(child, calls[++n])
+  assert.deepEqual(context.children, children)
+})
 
-      // @ts-expect-error: literal.
-      if (!inserted && child.value === 1) {
-        inserted = true
-        parent.children.unshift(
-          /** @type {ExampleLiteral} */ ({type: 'x', value: -1})
-        )
-        return -1
-      }
-    })(context)
-
-    st.deepEqual(context.children, [
-      {type: 'x', value: -1},
+test('should skip backwards', () => {
+  const calls = [
+    {type: 'x', value: 0},
+    {type: 'x', value: 1},
+    {type: 'x', value: -1},
+    {type: 'x', value: 0},
+    {type: 'x', value: 1},
+    {type: 'x', value: 2},
+    {type: 'x', value: 3}
+  ]
+  let n = -1
+  const context = {
+    type: 'y',
+    children: [
       {type: 'x', value: 0},
       {type: 'x', value: 1},
       {type: 'x', value: 2},
       {type: 'x', value: 3}
-    ])
+    ]
+  }
+  let inserted = false
 
-    st.end()
-  })
+  modifyChildren((child, _, parent) => {
+    assert.deepEqual(child, calls[++n])
 
-  t.end()
+    if (!inserted && child.value === 1) {
+      inserted = true
+      parent.children.unshift(
+        /** @type {ExampleLiteral} */ ({type: 'x', value: -1})
+      )
+      return -1
+    }
+  })(context)
+
+  assert.deepEqual(context.children, [
+    {type: 'x', value: -1},
+    {type: 'x', value: 0},
+    {type: 'x', value: 1},
+    {type: 'x', value: 2},
+    {type: 'x', value: 3}
+  ])
 })
