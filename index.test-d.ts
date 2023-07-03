@@ -1,6 +1,6 @@
 import {expectError, expectType} from 'tsd'
 import type {Literal, Parent} from 'unist'
-import {modifyChildren} from './index.js'
+import {modifyChildren} from 'unist-util-modify-children'
 
 /* Setup */
 const sampleTree: Root = {

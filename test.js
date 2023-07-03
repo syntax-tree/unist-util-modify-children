@@ -5,15 +5,16 @@
 
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import {modifyChildren} from './index.js'
+import {modifyChildren} from 'unist-util-modify-children'
 
 function noop() {}
 
 test('modifyChildren', async function (t) {
   await t.test('should expose the public api', async function () {
-    assert.deepEqual(Object.keys(await import('./index.js')).sort(), [
-      'modifyChildren'
-    ])
+    assert.deepEqual(
+      Object.keys(await import('unist-util-modify-children')).sort(),
+      ['modifyChildren']
+    )
   })
 
   await t.test('should throw without node', async function () {
