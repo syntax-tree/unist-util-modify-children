@@ -76,6 +76,16 @@
     "strict": true
   },
   "xo": {
+    "overrides": [
+      {
+        "files": [
+          "**/*.ts"
+        ],
+        "rules": {
+          "@typescript-eslint/consistent-type-definitions": "off"
+        }
+      }
+    ],
     "prettier": true
   }
 }

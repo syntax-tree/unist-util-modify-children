@@ -1,8 +1,6 @@
 import {expectError, expectType} from 'tsd'
-import type {Node, Parent, Literal} from 'unist'
+import type {Literal, Parent} from 'unist'
 import {modifyChildren} from './index.js'
-
-/* eslint-disable @typescript-eslint/consistent-type-definitions */
 
 /* Setup */
 const sampleTree: Root = {
@@ -50,12 +48,12 @@ interface Text extends Literal {
 /* Missing params. */
 expectError(modifyChildren())
 
-modifyChildren((node, _, parent: Emphasis) => {
+modifyChildren(function (node, _, parent: Emphasis) {
   expectType<Phrasing>(node)
+  return undefined
 })
 
-modifyChildren((node, _, parent: Root) => {
+modifyChildren(function (node, _, parent: Root) {
   expectType<Flow>(node)
+  return undefined
 })
-
-/* eslint-enable @typescript-eslint/consistent-type-definitions */

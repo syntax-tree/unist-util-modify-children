@@ -79,7 +79,7 @@ const modify = modifyChildren(function (node, index, parent) {
 
 modify(tree)
 
-console.dir(tree, {depth: null})
+console.dir(tree, {depth: undefined})
 ```
 
 Yields:
@@ -130,7 +130,7 @@ Callback called for each `child` in `parent` later given to `modify`
 
 ###### Returns
 
-Position to move to next (optional) (`number` or `void`).
+Position to move to next (optional) (`number` or `undefined`).
 
 ### `Modify`
 
@@ -143,7 +143,7 @@ Modify children of `parent` (TypeScript type).
 
 ###### Returns
 
-Nothing (`void`).
+Nothing (`undefined`).
 
 ## Types
 
