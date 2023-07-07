@@ -48,14 +48,14 @@ npm install unist-util-modify-children
 In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import {modifyChildren} from 'https://esm.sh/unist-util-modify-children@3'
+import {modifyChildren} from 'https://esm.sh/unist-util-modify-children@4'
 ```
 
 In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import {modifyChildren} from 'https://esm.sh/unist-util-modify-children@3?bundle'
+  import {modifyChildren} from 'https://esm.sh/unist-util-modify-children@4?bundle'
 </script>
 ```
 
