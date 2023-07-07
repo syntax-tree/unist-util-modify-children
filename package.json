@@ -33,7 +33,7 @@
     "index.js"
   ],
   "dependencies": {
-    "@types/unist": "^2.0.0",
+    "@types/unist": "^3.0.0",
     "array-iterate": "^2.0.0"
   },
   "devDependencies": {
@@ -81,7 +81,8 @@
           "**/*.ts"
         ],
         "rules": {
-          "@typescript-eslint/consistent-type-definitions": "off"
+          "@typescript-eslint/consistent-type-definitions": "off",
+          "import/no-extraneous-dependencies": "off"
         }
       }
     ],

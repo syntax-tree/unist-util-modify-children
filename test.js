@@ -1,6 +1,6 @@
 /**
- * @typedef {import('unist').Literal<number>} ExampleLiteral
- * @typedef {import('unist').Parent<ExampleLiteral>} ExampleParent
+ * @typedef {import('mdast').Emphasis} Emphasis
+ * @typedef {import('mdast').PhrasingContent} PhrasingContent
  */
 
 import assert from 'node:assert/strict'
@@ -32,14 +32,15 @@ test('modifyChildren', async function (t) {
   })
 
   await t.test('should call `fn` for each child in `parent`', function () {
+    /** @type {Array<PhrasingContent>} */
     const children = [
-      {type: 'x', value: 0},
-      {type: 'x', value: 1},
-      {type: 'x', value: 2},
-      {type: 'x', value: 3}
+      {type: 'text', value: '0'},
+      {type: 'text', value: '1'},
+      {type: 'text', value: '2'},
+      {type: 'text', value: '3'}
     ]
-    /** @type {ExampleParent} */
-    const context = {type: 'y', children}
+    /** @type {Emphasis} */
+    const context = {type: 'emphasis', children}
     let n = -1
 
     modifyChildren(function (child, index, parent) {
@@ -47,78 +48,82 @@ test('modifyChildren', async function (t) {
       assert.strictEqual(child, children[n])
       assert.strictEqual(index, n)
       assert.strictEqual(parent, context)
-      return undefined
     })(context)
   })
 
   await t.test('should work when new children are added', function () {
+    /** @type {Array<PhrasingContent>} */
     const children = [
-      {type: 'x', value: 0},
-      {type: 'x', value: 1},
-      {type: 'x', value: 2},
-      {type: 'x', value: 3},
-      {type: 'x', value: 4},
-      {type: 'x', value: 5},
-      {type: 'x', value: 6}
+      {type: 'text', value: '0'},
+      {type: 'text', value: '1'},
+      {type: 'text', value: '2'},
+      {type: 'text', value: '3'},
+      {type: 'text', value: '4'},
+      {type: 'text', value: '5'},
+      {type: 'text', value: '6'}
     ]
-    /** @type {ExampleParent} */
+    /** @type {Emphasis} */
     const parent = {
-      type: 'y',
+      type: 'emphasis',
       children: [
-        {type: 'x', value: 0},
-        {type: 'x', value: 1},
-        {type: 'x', value: 2},
-        {type: 'x', value: 3}
+        {type: 'text', value: '0'},
+        {type: 'text', value: '1'},
+        {type: 'text', value: '2'},
+        {type: 'text', value: '3'}
       ]
     }
     let n = -1
 
     modifyChildren(
       /**
-       * @param {ExampleLiteral} child
-       * @param {ExampleParent} parent
+       * @param {PhrasingContent} child
+       * @param {Emphasis} parent
        */
       function (child, index, parent) {
         n++
 
         if (index < 3) {
-          parent.children.push({type: 'x', value: parent.children.length})
+          parent.children.push({
+            type: 'text',
+            value: String(parent.children.length)
+          })
         }
 
         assert.deepEqual(child, children[n])
         assert.deepEqual(index, n)
-        return undefined
       }
     )(parent)
   })
 
   await t.test('should skip forwards', function () {
+    /** @type {Array<PhrasingContent>} */
     const children = [
-      {type: 'x', value: 0},
-      {type: 'x', value: 1},
-      {type: 'x', value: 2},
-      {type: 'x', value: 3}
+      {type: 'text', value: '0'},
+      {type: 'text', value: '1'},
+      {type: 'text', value: '2'},
+      {type: 'text', value: '3'}
     ]
+    /** @type {Emphasis} */
     const context = {
-      type: 'y',
+      type: 'emphasis',
       children: [
-        {type: 'x', value: 0},
-        {type: 'x', value: 1},
-        {type: 'x', value: 3}
+        {type: 'text', value: '0'},
+        {type: 'text', value: '1'},
+        {type: 'text', value: '3'}
       ]
     }
     let n = -1
 
     modifyChildren(
       /**
-       * @param {ExampleLiteral} child
-       * @param {ExampleParent} parent
+       * @param {PhrasingContent} child
+       * @param {Emphasis} parent
        */
       function (child, index, parent) {
         assert.deepEqual(child, children[++n])
 
-        if (child.value === 1) {
-          parent.children.splice(index + 1, 0, {type: 'x', value: 2})
+        if ('value' in child && child.value === '1') {
+          parent.children.splice(index + 1, 0, {type: 'text', value: '2'})
           return index + 1
         }
       }
@@ -129,21 +134,22 @@ test('modifyChildren', async function (t) {
 
   await t.test('should skip backwards', function () {
     const calls = [
-      {type: 'x', value: 0},
-      {type: 'x', value: 1},
-      {type: 'x', value: -1},
-      {type: 'x', value: 0},
-      {type: 'x', value: 1},
-      {type: 'x', value: 2},
-      {type: 'x', value: 3}
+      {type: 'text', value: '0'},
+      {type: 'text', value: '1'},
+      {type: 'text', value: '-1'},
+      {type: 'text', value: '0'},
+      {type: 'text', value: '1'},
+      {type: 'text', value: '2'},
+      {type: 'text', value: '3'}
     ]
+    /** @type {Emphasis} */
     const context = {
-      type: 'y',
+      type: 'emphasis',
       children: [
-        {type: 'x', value: 0},
-        {type: 'x', value: 1},
-        {type: 'x', value: 2},
-        {type: 'x', value: 3}
+        {type: 'text', value: '0'},
+        {type: 'text', value: '1'},
+        {type: 'text', value: '2'},
+        {type: 'text', value: '3'}
       ]
     }
     let n = -1
@@ -151,26 +157,26 @@ test('modifyChildren', async function (t) {
 
     modifyChildren(
       /**
-       * @param {ExampleLiteral} child
-       * @param {ExampleParent} parent
+       * @param {PhrasingContent} child
+       * @param {Emphasis} parent
        */
       function (child, _, parent) {
         assert.deepEqual(child, calls[++n])
 
-        if (!inserted && child.value === 1) {
+        if (!inserted && 'value' in child && child.value === '1') {
           inserted = true
-          parent.children.unshift({type: 'x', value: -1})
+          parent.children.unshift({type: 'text', value: '-1'})
           return -1
         }
       }
     )(context)
 
     assert.deepEqual(context.children, [
-      {type: 'x', value: -1},
-      {type: 'x', value: 0},
-      {type: 'x', value: 1},
-      {type: 'x', value: 2},
-      {type: 'x', value: 3}
+      {type: 'text', value: '-1'},
+      {type: 'text', value: '0'},
+      {type: 'text', value: '1'},
+      {type: 'text', value: '2'},
+      {type: 'text', value: '3'}
     ])
   })
 })
